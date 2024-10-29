@@ -1,4 +1,4 @@
-name: Build
+name: CICDApp
 on: [push]
 jobs:
   build:
