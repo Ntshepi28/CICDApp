@@ -31,3 +31,24 @@ jobs:
         uses: actions/test-report@v2
         with:
           test-result-file: test-results.xml
+
+  deploy:
+    needs: build-and-test  # Ensure the deploy job runs after the build-and-test job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'  # You can set your required Node.js version here
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Deploy to production
+        env:
+          DEPLOYMENT_TOKEN: ${{ secrets.DEPLOYMENT_TOKEN }}  # Use a secret token for deployment authentication
+        run: |
+          npm run deploy  # Customize this to your deployment command (e.g., using a custom deploy script or CLI)
